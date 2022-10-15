@@ -106,6 +106,86 @@
 											"listen": "test",
 											"script": {
 												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"companyName\": \"{{$randomCompanyName}}\",\r\n    \"firstName\": \"{{}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CREATE USER (No field is filled)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"companyName\": \"{{}}\",\r\n    \"firstName\": \"{{}}\",\r\n    \"lastName\": \"{{}}\",\r\n    \"email\": \"{{}}\",\r\n    \"password\": \"{{}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CREATE USER (Empty JSON)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
 													"pm.environment.set(\"email\", JSON.parse(pm.request.body).email)\r",
 													"pm.environment.set(\"password\", JSON.parse(pm.request.body).password)"
 												],
@@ -121,7 +201,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"companyName\": \"{{$randomCompanyName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
+											"raw": "{}",
 											"options": {
 												"raw": {
 													"language": "json"

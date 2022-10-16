@@ -15,7 +15,7 @@ This collection is not final. Make your corrections, improvements, I will be gla
 
 <div align='center'>
 <p align="center"> 
-   <img src='.github/workflows/dino.gif' align="center"/>
+   <img src='.github/workflows/dino.gif'/>
  </p></div>
 
  

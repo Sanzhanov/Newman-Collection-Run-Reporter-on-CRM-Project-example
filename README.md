@@ -12,10 +12,3 @@ In addition inside most requests, you will find some scripts and tests. Some tes
 When I was writing tests, I deliberately used <a rel="Chai" href="https://www.chaijs.com/api/bdd/">Chai Assertion Library</a> BDD syntax (expect) to make it easier to develop automated tests based on them. All that's left is to adjust the tests according to the syntax of the HTTP client you plan to use. Moreover, <a rel="checklist" href="https://github.com/Sanzhanov/API-Automation-Tests-for-CRM-ClientBase-v5">here</a> you can see my collection of automated API tests for the same project.
 
 This collection is not final. Make your corrections, improvements, I will be glad to your future requests for a merge.
-
-<div align='center'>
-<p align="center"> 
-   <img src='.github/workflows/dino.gif'/>
- </p></div>
-
- 

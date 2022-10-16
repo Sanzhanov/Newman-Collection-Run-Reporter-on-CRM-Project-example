@@ -13,5 +13,9 @@ When I was writing tests, I deliberately used <a rel="Chai" href="https://www.ch
 
 This collection is not final. Make your corrections, improvements, I will be glad to your future requests for a merge.
 
-<img src='.github/workflows/dino.gif' height=200 
-   align="center"/> 
+<div align='center'>
+<p align="center"> 
+   <img src='.github/workflows/dino.gif' align="center"/>
+ </p></div>
+
+ 

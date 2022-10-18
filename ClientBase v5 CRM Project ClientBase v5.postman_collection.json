@@ -16,7 +16,7 @@
 							"name": "CREATE USER",
 							"item": [
 								{
-									"name": "CREATE USER (All fields filled with valid data)",
+									"name": "All fields filled with valid data",
 									"event": [
 										{
 											"listen": "test",
@@ -27,10 +27,11 @@
 													"pm.environment.set(\"companyName\", JSON.parse(pm.request.body).companyName)\r",
 													"pm.environment.set(\"userFirstName\", JSON.parse(pm.request.body).firstName)\r",
 													"pm.environment.set(\"userLastName\", JSON.parse(pm.request.body).lastName)\r",
+													"pm.environment.set(\"userFullName\", pm.environment.get(\"userFirstName\")+' '+pm.environment.get(\"userLastName\"))\r",
 													"pm.environment.set(\"email\", JSON.parse(pm.request.body).email)\r",
 													"pm.environment.set(\"password\", JSON.parse(pm.request.body).password)\r",
 													"\r",
-													"//TESTS:\r",
+													"TESTS:\r",
 													"\r",
 													"pm.test(\"Successful POST request\", () => {\r",
 													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
@@ -48,11 +49,11 @@
 													"    pm.expect(responseBody).not.to.be.undefined\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response has body\", () => {\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
 													"    pm.expect(pm.response).to.have.jsonBody\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response body is JSON\", () => {\r",
+													"pm.test(\"Response body is JSON (another way)\", () => {\r",
 													"    pm.expect(typeof(responseBody)).to.eq('string')\r",
 													"});\r",
 													"\r",
@@ -80,19 +81,19 @@
 													"    pm.expect(JSON.parse(pm.response.text()).message).to.eq('User created successfully. Please check your email and verify it')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Request has headers\", () => {\r",
+													"pm.test(\"Response has headers\", () => {\r",
 													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Request headers is an object\", () => {\r",
+													"pm.test(\"Response headers is an object\", () => {\r",
 													"    pm.expect(pm.response.headers).to.be.an('object')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response time is in milliseconds (or less than 1 second)\", () => {\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
 													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response size is in bytes (or less than 1kB)\", () => {\r",
+													"pm.test(\"Response size is in bytes (less than 1kB)\", () => {\r",
 													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
 													"});\r",
 													"\r",
@@ -102,8 +103,7 @@
 													"\r",
 													"pm.test(\"Check the active environment\", () => {\r",
 													"  pm.expect(pm.environment.name).to.eq(\"ClientBase v5\");\r",
-													"});\r",
-													""
+													"});"
 												],
 												"type": "text/javascript"
 											}
@@ -137,7 +137,7 @@
 									"response": []
 								},
 								{
-									"name": "CREATE USER DUPLICATE",
+									"name": "User duplicate",
 									"event": [
 										{
 											"listen": "test",
@@ -145,9 +145,9 @@
 												"exec": [
 													"//Comment: In this request authorization also isn't required. \r",
 													"\r",
-													"//TESTS:\r",
+													"TESTS:\r",
 													"\r",
-													"pm.test(\"Successful POST request\", () => {\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
 													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
 													"});\r",
 													"\r",
@@ -155,7 +155,7 @@
 													"    pm.expect(pm.response.code).to.eq(409)\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Status code name is Created\", () => {\r",
+													"pm.test(\"Status code name is Conflict\", () => {\r",
 													"    pm.expect(pm.response.status).to.eq(\"Conflict\")\r",
 													"});\r",
 													"\r",
@@ -163,11 +163,11 @@
 													"    pm.expect(responseBody).not.to.be.undefined\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response has body\", () => {\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
 													"    pm.expect(pm.response).to.have.jsonBody\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response body is JSON\", () => {\r",
+													"pm.test(\"Response body is JSON (another way)\", () => {\r",
 													"    pm.expect(typeof(responseBody)).to.eq('string')\r",
 													"});\r",
 													"\r",
@@ -175,39 +175,39 @@
 													"    pm.expect(responseBody).to.be.a('string')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message\", () => {\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
 													"    pm.expect(pm.response.json().message).to.eq('User with this e-mail exists')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
 													"    pm.expect(pm.response.text()).to.include('User with this e-mail exists')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
 													"    pm.expect(pm.response.text()).to.have.string('User with this e-mail exists')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
 													"    pm.expect(JSON.parse(responseBody).message).to.eq('User with this e-mail exists')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
 													"    pm.expect(JSON.parse(pm.response.text()).message).to.eq('User with this e-mail exists')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Request has headers\", () => {\r",
+													"pm.test(\"Response has headers\", () => {\r",
 													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Request headers is an object\", () => {\r",
+													"pm.test(\"Response headers is an object\", () => {\r",
 													"    pm.expect(pm.response.headers).to.be.an('object')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response time is in milliseconds (or less than 1 second)\", () => {\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
 													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response size is in bytes (or less than 1kB)\", () => {\r",
+													"pm.test(\"Response size is in bytes (less than 1kB)\", () => {\r",
 													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
 													"});\r",
 													"\r",
@@ -251,7 +251,7 @@
 									"response": []
 								},
 								{
-									"name": "CREATE USER (Not all required fields are filled)",
+									"name": "Not all required fields are filled (any fields except first)",
 									"event": [
 										{
 											"listen": "test",
@@ -259,17 +259,17 @@
 												"exec": [
 													"//Comment: In this request authorization also isn't required. \r",
 													"\r",
-													"//TESTS:\r",
+													"TESTS:\r",
 													"\r",
-													"pm.test(\"Successful POST request\", () => {\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
 													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Status code is 409\", () => {\r",
+													"pm.test(\"Status code is 404\", () => {\r",
 													"    pm.expect(pm.response.code).to.eq(404)\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Status code name is Created\", () => {\r",
+													"pm.test(\"Status code name is Not Found\", () => {\r",
 													"    pm.expect(pm.response.status).to.eq(\"Not Found\")\r",
 													"});\r",
 													"\r",
@@ -277,11 +277,11 @@
 													"    pm.expect(responseBody).not.to.be.undefined\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response has body\", () => {\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
 													"    pm.expect(pm.response).to.have.jsonBody\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response body is JSON\", () => {\r",
+													"pm.test(\"Response body is JSON (another way)\", () => {\r",
 													"    pm.expect(typeof(responseBody)).to.eq('string')\r",
 													"});\r",
 													"\r",
@@ -289,39 +289,39 @@
 													"    pm.expect(responseBody).to.be.a('string')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message\", () => {\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
 													"    pm.expect(pm.response.json().message).to.eq('User was not created')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
 													"    pm.expect(pm.response.text()).to.include('User was not created')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
 													"    pm.expect(pm.response.text()).to.have.string('User was not created')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
 													"    pm.expect(JSON.parse(responseBody).message).to.eq('User was not created')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
 													"    pm.expect(JSON.parse(pm.response.text()).message).to.eq('User was not created')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Request has headers\", () => {\r",
+													"pm.test(\"Response has headers\", () => {\r",
 													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Request headers is an object\", () => {\r",
+													"pm.test(\"Response headers is an object\", () => {\r",
 													"    pm.expect(pm.response.headers).to.be.an('object')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response time is in milliseconds (or less than 1 second)\", () => {\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
 													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response size is in bytes (or less than 1kB)\", () => {\r",
+													"pm.test(\"Response size is in bytes (less than 1kB)\", () => {\r",
 													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
 													"});\r",
 													"\r",
@@ -365,37 +365,38 @@
 									"response": []
 								},
 								{
-									"name": "CREATE USER (No field is filled)",
+									"name": "Not all required fields are filled (first field)",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
 													"//Comment: In this request authorization also isn't required. \r",
+													"//8 tests fail. \r",
 													"\r",
-													"//TESTS:\r",
+													"TESTS:\r",
 													"\r",
-													"pm.test(\"Successful POST request\", () => {\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
 													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Status code is 409\", () => {\r",
-													"    pm.expect(pm.response.code).to.eq(400)\r",
+													"pm.test(\"Status code is 404\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(404)\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Status code name is Created\", () => {\r",
-													"    pm.expect(pm.response.status).to.eq(\"Bad Request\")\r",
+													"pm.test(\"Status code name is Not Found\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"Not Found\")\r",
 													"});\r",
 													"\r",
 													"pm.test(\"Response has body\", () => {\r",
 													"    pm.expect(responseBody).not.to.be.undefined\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response has body\", () => {\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
 													"    pm.expect(pm.response).to.have.jsonBody\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response body is JSON\", () => {\r",
+													"pm.test(\"Response body is JSON (another way)\", () => {\r",
 													"    pm.expect(typeof(responseBody)).to.eq('string')\r",
 													"});\r",
 													"\r",
@@ -403,39 +404,153 @@
 													"    pm.expect(responseBody).to.be.a('string')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message\", () => {\r",
-													"    pm.expect(pm.response.json().message).to.eq('Wrong password format')\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('User was not created')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
-													"    pm.expect(pm.response.text()).to.include('Wrong password format')\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
+													"    pm.expect(pm.response.text()).to.include('User was not created')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
-													"    pm.expect(pm.response.text()).to.have.string('Wrong password format')\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
+													"    pm.expect(pm.response.text()).to.have.string('User was not created')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
-													"    pm.expect(JSON.parse(responseBody).message).to.eq('Wrong password format')\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
+													"    pm.expect(JSON.parse(responseBody).message).to.eq('User was not created')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
-													"    pm.expect(JSON.parse(pm.response.text()).message).to.eq('Wrong password format')\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
+													"    pm.expect(JSON.parse(pm.response.text()).message).to.eq('User was not created')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Request has headers\", () => {\r",
+													"pm.test(\"Response has headers\", () => {\r",
 													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Request headers is an object\", () => {\r",
+													"pm.test(\"Response headers is an object\", () => {\r",
 													"    pm.expect(pm.response.headers).to.be.an('object')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response time is in milliseconds (or less than 1 second)\", () => {\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
 													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response size is in bytes (or less than 1kB)\", () => {\r",
+													"pm.test(\"Response size is in bytes (less than 1kB)\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check the active environment\", () => {\r",
+													"  pm.expect(pm.environment.name).to.eq(\"ClientBase v5\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"companyName\": \"{{}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "No field is filled",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//Comment: In this request authorization also isn't required. \r",
+													"\r",
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(400)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is Bad Request\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"Bad Request\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON (another way)\", () => {\r",
+													"    pm.expect(typeof(responseBody)).to.eq('string')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON (another way)\", () => {\r",
+													"    pm.expect(responseBody).to.be.a('string')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('Wrong password format')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
+													"    pm.expect(pm.response.text()).to.include('Wrong password format')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
+													"    pm.expect(pm.response.text()).to.have.string('Wrong password format')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
+													"    pm.expect(JSON.parse(responseBody).message).to.eq('Wrong password format')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
+													"    pm.expect(JSON.parse(pm.response.text()).message).to.eq('Wrong password format')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response headers is an object\", () => {\r",
+													"    pm.expect(pm.response.headers).to.be.an('object')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is in bytes (less than 1kB)\", () => {\r",
 													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
 													"});\r",
 													"\r",
@@ -479,7 +594,7 @@
 									"response": []
 								},
 								{
-									"name": "CREATE USER (Empty JSON)",
+									"name": "Empty JSON",
 									"event": [
 										{
 											"listen": "test",
@@ -487,17 +602,17 @@
 												"exec": [
 													"//Comment: In this request authorization also isn't required. \r",
 													"\r",
-													"//TESTS:\r",
+													"TESTS:\r",
 													"\r",
-													"pm.test(\"Successful POST request\", () => {\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
 													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Status code is 409\", () => {\r",
+													"pm.test(\"Status code is 400\", () => {\r",
 													"    pm.expect(pm.response.code).to.eq(400)\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Status code name is Created\", () => {\r",
+													"pm.test(\"Status code name is Bad Request\", () => {\r",
 													"    pm.expect(pm.response.status).to.eq(\"Bad Request\")\r",
 													"});\r",
 													"\r",
@@ -505,11 +620,11 @@
 													"    pm.expect(responseBody).not.to.be.undefined\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response has body\", () => {\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
 													"    pm.expect(pm.response).to.have.jsonBody\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response body is JSON\", () => {\r",
+													"pm.test(\"Response body is JSON (another way)\", () => {\r",
 													"    pm.expect(typeof(responseBody)).to.eq('string')\r",
 													"});\r",
 													"\r",
@@ -517,39 +632,39 @@
 													"    pm.expect(responseBody).to.be.a('string')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message\", () => {\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
 													"    pm.expect(pm.response.json().message).to.eq('Wrong password format')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
 													"    pm.expect(pm.response.text()).to.include('Wrong password format')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
 													"    pm.expect(pm.response.text()).to.have.string('Wrong password format')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
 													"    pm.expect(JSON.parse(responseBody).message).to.eq('Wrong password format')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response contains a specific message (another way)\", () => {\r",
+													"pm.test(\"Response contains an error message (another way)\", () => {\r",
 													"    pm.expect(JSON.parse(pm.response.text()).message).to.eq('Wrong password format')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Request has headers\", () => {\r",
+													"pm.test(\"Response has headers\", () => {\r",
 													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Request headers is an object\", () => {\r",
+													"pm.test(\"Response headers is an object\", () => {\r",
 													"    pm.expect(pm.response.headers).to.be.an('object')\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response time is in milliseconds (or less than 1 second)\", () => {\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
 													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response size is in bytes (or less than 1kB)\", () => {\r",
+													"pm.test(\"Response size is in bytes (less than 1kB)\", () => {\r",
 													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
 													"});\r",
 													"\r",
@@ -595,287 +710,1307 @@
 							]
 						},
 						{
-							"name": "EMAIL VERIFICATION",
-							"event": [
+							"name": "SEARCH AND VERIFICATION EMAIL",
+							"item": [
 								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const responseData = JSON.parse(responseBody),\r",
-											"    str = responseData.payload.items[0].message,\r",
-											"    endPoint = str.split('\\n')[4].split('https://clientbase.us/')[1]\r",
-											"    \r",
-											"emailRequest = {\r",
-											"    url: environment.baseUrl+endPoint,\r",
-											"    method: 'GET',\r",
-											"};\r",
-											"pm.sendRequest(emailRequest);\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "",
-										"type": "text",
-										"disabled": true
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"{{email}}\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
+									"name": "All fields filled with valid data (subrequest included)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//Comment: In this request authorization also isn't required. \r",
+													"\r",
+													"const responseData = JSON.parse(responseBody),\r",
+													"    str = responseData.payload.items[0].message,\r",
+													"    endPoint = str.split('\\n')[4].split('https://clientbase.us/')[1]\r",
+													"    \r",
+													"emailRequest = {\r",
+													"    url: environment.baseUrl+endPoint,\r",
+													"    method: 'GET',\r",
+													"};\r",
+													"pm.sendRequest(emailRequest);\r",
+													"\r",
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Response body contains initial email\", function () {\r",
+													"  pm.expect(pm.response.json().payload.items[0].email).to.eq(pm.environment.get(\"email\").toLowerCase());\r",
+													"});\r",
+													"//-----------------------------------------------------------------------------------------\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is OK\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('EmailSearch ok')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"// pm.test(\"Response size is more than 1kB)\", () => {\r",
+													"//     pm.expect(pm.response.responseSize).to.be.above(1000);\r",
+													"// });\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
 										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}email/search",
-									"host": [
-										"{{baseUrl}}email"
 									],
-									"path": [
-										"search"
-									]
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"{{email}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}email/search",
+											"host": [
+												"{{baseUrl}}email"
+											],
+											"path": [
+												"search"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Not all required fields are filled",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//Comment: In this request authorization also isn't required. \r",
+													"//Two first tests fail. \r",
+													"\r",
+													"//TESTS:\r",
+													"\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is not OK\", () => {\r",
+													"    pm.expect(pm.response.status).not.to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains some message\", () => {\r",
+													"    pm.expect(pm.response.json().message).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"{{}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}email/search",
+											"host": [
+												"{{baseUrl}}email"
+											],
+											"path": [
+												"search"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Empty JSON",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//Comment: In this request authorization also isn't required. \r",
+													"//Two first tests fail. \r",
+													"\r",
+													"//TESTS:\r",
+													"\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is not OK\", () => {\r",
+													"    pm.expect(pm.response.status).not.to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains some message\", () => {\r",
+													"    pm.expect(pm.response.json().message).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}email/search",
+											"host": [
+												"{{baseUrl}}email"
+											],
+											"path": [
+												"search"
+											]
+										}
+									},
+									"response": []
 								}
-							},
-							"response": []
+							]
 						},
 						{
-							"name": "LOGIN",
-							"event": [
+							"name": "USER LOGIN",
+							"item": [
 								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.environment.set(\"token\", JSON.parse(responseBody).payload.token)\r",
-											"pm.environment.set(\"userId\", JSON.parse(responseBody).payload.user._id)\r",
-											"pm.environment.set(\"companyId\", JSON.parse(responseBody).payload.user.companyAccount)"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
+									"name": "All fields filled with valid data",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//Comment: In this request authorization also isn't required. \r",
+													"\r",
+													"pm.environment.set(\"token\", JSON.parse(responseBody).payload.token)\r",
+													"pm.environment.set(\"userId\", JSON.parse(responseBody).payload.user._id)\r",
+													"pm.environment.set(\"companyId\", JSON.parse(responseBody).payload.user.companyAccount)\r",
+													"\r",
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"User has role new or verified\", () => {\r",
+													"    pm.expect(pm.response.json().payload.user.roles[0]).to.be.oneOf(['new', 'verified'])\r",
+													"});\r",
+													"\r",
+													"pm.test(\"User has role new if user's email isn't confirmed and role verified - otherwise\", () => {\r",
+													"    if(pm.response.json().payload.user.emailConfirmation.confirmed===true) pm.expect(pm.response.json().payload.user.roles[0]).to.eq('verified') \r",
+													"    else pm.expect(pm.response.json().payload.user.roles[0]).to.eq('new') \r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains token\", () => {\r",
+													"    pm.expect(pm.response.json().payload.token).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains user id\", () => {\r",
+													"    pm.expect(pm.response.json().payload.user._id).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains company id\", () => {\r",
+													"    pm.expect(pm.response.json().payload.user.companyAccount).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains initial user email\", function () {\r",
+													"  pm.expect(pm.response.json().payload.user.email).to.eq(pm.environment.get(\"email\").toLowerCase());\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body doesn't contain user password\", () => {\r",
+													"    pm.expect(pm.response.json().payload.user.password).to.eq(null)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains initial user name\", function () {\r",
+													"  pm.expect(pm.response.json().payload.user.name).to.eq(pm.environment.get(\"userFullName\"))\r",
+													"});\r",
+													"//------------------------------------------------------------------------------\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is OK\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('Auth success')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"// pm.test(\"Response size is more than 1kB\", () => {\r",
+													"//     pm.expect(pm.response.responseSize).to.be.above(1000);\r",
+													"// });\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
 										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}v5/user/login",
-									"host": [
-										"{{baseUrl}}v5"
 									],
-									"path": [
-										"user",
-										"login"
-									]
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user/login",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Not all required fields are filled",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//Comment: In this request authorization also isn't required. \r",
+													"\r",
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(400)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is Bad Request\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"Bad Request\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('Auth failed')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user/login",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "No field is filled",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//Comment: In this request authorization also isn't required. \r",
+													"\r",
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(400)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is Bad Request\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"Bad Request\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('Auth failed')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"{{}}\",\r\n    \"password\": \"{{}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user/login",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Empty JSON",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//Comment: In this request authorization also isn't required. \r",
+													"\r",
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(400)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is Bad Request\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"Bad Request\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('Auth failed')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user/login",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"login"
+											]
+										}
+									},
+									"response": []
 								}
-							},
-							"response": []
+							]
 						},
 						{
 							"name": "LIST OF ALL USERS",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{token}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}v5/user/search",
-									"host": [
-										"{{baseUrl}}v5"
-									],
-									"path": [
-										"user",
-										"search"
-									],
-									"query": [
+							"item": [
+								{
+									"name": "Request body is empty",
+									"event": [
 										{
-											"key": "pageCurrent",
-											"value": "2",
-											"disabled": true
+											"listen": "test",
+											"script": {
+												"exec": [
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"List of all users contains current user\", () => {\r",
+													"    pm.expect(pm.response.text()).to.include(pm.environment.get(\"userId\"))\r",
+													"});\r",
+													"\r",
+													"pm.test(\"List of all users contains current user (another way)\", () => {\r",
+													"    pm.expect(pm.response.text()).to.have.string(pm.environment.get(\"userId\"))\r",
+													"});\r",
+													"//-----------------------------------------------------------------------------\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is OK\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is more than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.above(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
 										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user/search",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"search"
+											],
+											"query": [
+												{
+													"key": "pageCurrent",
+													"value": "2",
+													"disabled": true
+												},
+												{
+													"key": "limit",
+													"value": "20",
+													"disabled": true
+												},
+												{
+													"key": "offset",
+													"value": "-1",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Pagination in the list (changed limit)",
+									"event": [
 										{
-											"key": "limit",
-											"value": "20",
-											"disabled": true
+											"listen": "test",
+											"script": {
+												"exec": [
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"List of all users contains current user\", () => {\r",
+													"    pm.expect(pm.response.text()).to.include(pm.environment.get(\"userId\"))\r",
+													"});\r",
+													"\r",
+													"pm.test(\"List of all users contains current user (another way)\", () => {\r",
+													"    pm.expect(pm.response.text()).to.have.string(pm.environment.get(\"userId\"))\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains set the given limit\", function () {\r",
+													"  pm.expect(pm.response.json().pagination.limit).to.eq(JSON.parse(pm.request.body).limit);\r",
+													"});\r",
+													"//-----------------------------------------------------------------------------------------\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is OK\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is more than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.above(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"limit\": 100\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
 										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user/search",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"search"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "SALES",
+							"item": [
+								{
+									"name": "COMPANY",
+									"event": [
 										{
-											"key": "offset",
-											"value": "-1",
-											"disabled": true
+											"listen": "test",
+											"script": {
+												"exec": [
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is OK\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('Report')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
 										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "ALL USERS with changed limit",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{token}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"limit\": 100\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}v5/user/search",
-									"host": [
-										"{{baseUrl}}v5"
 									],
-									"path": [
-										"user",
-										"search"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "COMPANY SALES",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{token}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/report/companySales",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"report",
+												"companySales"
+											]
 										}
-									}
+									},
+									"response": []
 								},
-								"url": {
-									"raw": "{{baseUrl}}v5/report/companySales",
-									"host": [
-										"{{baseUrl}}v5"
-									],
-									"path": [
-										"report",
-										"companySales"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PERSONAL SALES",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{token}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
+								{
+									"name": "PERSONAL",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is OK\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('Report')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
 										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}v5/report/personalSales",
-									"host": [
-										"{{baseUrl}}v5"
 									],
-									"path": [
-										"report",
-										"personalSales"
-									]
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/report/personalSales",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"report",
+												"personalSales"
+											]
+										}
+									},
+									"response": []
 								}
-							},
-							"response": []
+							]
 						},
 						{
 							"name": "RESET USER PASSWORD",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{token}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"{{email}}\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
+							"item": [
+								{
+									"name": "All fields filled with valid data",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//TESTS:\r",
+													"\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is OK\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('Check mail for reset password link')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB)\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
 										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}v5/user/password/reset/request",
-									"host": [
-										"{{baseUrl}}v5"
 									],
-									"path": [
-										"user",
-										"password",
-										"reset",
-										"request"
-									]
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"{{email}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user/password/reset/request",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"password",
+												"reset",
+												"request"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Not all required fields are filled",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//TESTS:\r",
+													"\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(400)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is Bad Request\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"Bad Request\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('User not found')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB)\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"{{}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user/password/reset/request",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"password",
+												"reset",
+												"request"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Empty JSON",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//TESTS:\r",
+													"\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(400)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is Bad Request\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"Bad Request\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('User not found')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user/password/reset/request",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"password",
+												"reset",
+												"request"
+											]
+										}
+									},
+									"response": []
 								}
-							},
-							"response": []
+							]
 						}
 					]
 				},
@@ -883,33 +2018,1281 @@
 					"name": "GET",
 					"item": [
 						{
-							"name": "USER AUTH by token",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{token}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}v5/user/auth",
-									"host": [
-										"{{baseUrl}}v5"
+							"name": "USER AUTH",
+							"item": [
+								{
+									"name": "by valid token",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//TESTS:\r",
+													"\r",
+													"pm.test(\"User has role new or verified\", () => {\r",
+													"    pm.expect(pm.response.json().payload.roles[0]).to.be.oneOf(['new', 'verified'])\r",
+													"});\r",
+													"\r",
+													"pm.test(\"User has role new if user's email isn't confirmed and role verified - otherwise\", () => {\r",
+													"    if(pm.response.json().payload.emailConfirmation.confirmed===true) pm.expect(pm.response.json().payload.roles[0]).to.eq('verified') \r",
+													"    else pm.expect(pm.response.json().payload.roles[0]).to.eq('new') \r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains user id\", () => {\r",
+													"    pm.expect(pm.response.json().payload._id).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains company id\", () => {\r",
+													"    pm.expect(pm.response.json().payload.companyAccount._id).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains initial user email\", function () {\r",
+													"  pm.expect(pm.response.json().payload.email).to.eq(pm.environment.get(\"email\").toLowerCase());\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains initial user name\", function () {\r",
+													"  pm.expect(pm.response.json().payload.name).to.eq(pm.environment.get(\"userFullName\"))\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains initial company name\", function () {\r",
+													"  pm.expect(pm.response.json().payload.companyAccount.companyName).to.eq(pm.environment.get(\"companyName\"))\r",
+													"});\r",
+													"//------------------------------------------------------------------------------\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is OK\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('Auth ok')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"// pm.test(\"Response size is more than 1kB\", () => {\r",
+													"//     pm.expect(pm.response.responseSize).to.be.above(1000);\r",
+													"// });\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
 									],
-									"path": [
-										"user",
-										"auth"
-									]
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}v5/user/auth",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"auth"
+											]
+										}
+									},
+									"response": []
 								}
-							},
-							"response": []
+							]
 						},
 						{
-							"name": "USER PROFILE by id",
+							"name": "USER PROFILE",
+							"item": [
+								{
+									"name": "by valid user id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Response body contains initial user id\", () => {\r",
+													"    pm.expect(pm.response.json().payload._id).to.eq(pm.environment.get(\"userId\"))\r",
+													"});\r",
+													"\r",
+													"pm.test(\"User has role new or verified\", () => {\r",
+													"    pm.expect(pm.response.json().payload.roles[0]).to.be.oneOf(['new', 'verified'])\r",
+													"});\r",
+													"\r",
+													"pm.test(\"User has role new if user's email isn't confirmed and role verified - otherwise\", () => {\r",
+													"    if(pm.response.json().payload.emailConfirmation.confirmed===true) pm.expect(pm.response.json().payload.roles[0]).to.eq('verified') \r",
+													"    else pm.expect(pm.response.json().payload.roles[0]).to.eq('new') \r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains company id\", () => {\r",
+													"    pm.expect(pm.response.json().payload.companyAccount._id).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains initial user email\", function () {\r",
+													"  pm.expect(pm.response.json().payload.email).to.eq(pm.environment.get(\"email\").toLowerCase());\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains initial user's first name\", function () {\r",
+													"  pm.expect(pm.response.json().payload.firstName).to.eq(pm.environment.get(\"userFirstName\"))\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains initial user's last name\", function () {\r",
+													"  pm.expect(pm.response.json().payload.lastName).to.eq(pm.environment.get(\"userLastName\"))\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains initial company name\", function () {\r",
+													"  pm.expect(pm.response.json().payload.companyAccount.companyName).to.eq(pm.environment.get(\"companyName\"))\r",
+													"});\r",
+													"\r",
+													"pm.test(\"User is company owner\", function () {\r",
+													"  pm.expect(pm.response.json().payload.companyAccount.owner).to.eq(pm.environment.get(\"userId\"))\r",
+													"});\r",
+													"\r",
+													"pm.test(\"User email and company email are the same\", function () {\r",
+													"  pm.expect(pm.response.json().payload.companyAccount.email).to.eq(pm.environment.get(\"email\").toLowerCase())\r",
+													"});\r",
+													"\r",
+													"//------------------------------------------------------------------------------\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is OK\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('User found')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"// pm.test(\"Response size is more than 1kB\", () => {\r",
+													"//     pm.expect(pm.response.responseSize).to.be.above(1000);\r",
+													"// });\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}v5/user/{{userId}}",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"{{userId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "by non-existent user ID, but in a valid format (pre-request script added)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 404\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(404)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is Not Found\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"Not Found\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('No User for provided id')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const userId = pm.environment.get(\"userId\"),\r",
+													"nonExistentUserId = userId.replace(userId[0], 0)\r",
+													"pm.environment.set(\"nonExistentUserId\", nonExistentUserId);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user/{{nonExistentUserId}}",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"{{nonExistentUserId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "by invalid user id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(400)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is Bad Request\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"Bad Request\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('User get by ID. Error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user/{{$guid}}",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"{{$guid}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "COMPANY ACCOUNT",
+							"item": [
+								{
+									"name": "by valid company id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Response body contains initial company id\", () => {\r",
+													"    pm.expect(pm.response.json().payload._id).to.eq(pm.environment.get(\"companyId\"))\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains initial company name\", function () {\r",
+													"  pm.expect(pm.response.json().payload.companyName).to.eq(pm.environment.get(\"companyName\"))\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains correct owner data (id)\", function () {\r",
+													"  pm.expect(pm.response.json().payload.owner._id).to.eq(pm.environment.get(\"userId\"))\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains correct owner data (name)\", function () {\r",
+													"  pm.expect(pm.response.json().payload.owner.name).to.eq(pm.environment.get(\"userFullName\"))\r",
+													"});\r",
+													"\r",
+													"pm.test(\"User email and company email are the same\", function () {\r",
+													"  pm.expect(pm.response.json().payload.email).to.eq(pm.environment.get(\"email\").toLowerCase())\r",
+													"});\r",
+													"//------------------------------------------------------------------------------\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is OK\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('Company Account get by id OK')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}v5/company/{{companyId}}",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"company",
+												"{{companyId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "by non-existent company ID, but in a valid format (pre-request script added)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(400)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is Bad Request\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"Bad Request\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('Company Account get error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const companyId = pm.environment.get(\"companyId\"),\r",
+													"nonExistentCompanyId = companyId.replace(companyId[0], 0)\r",
+													"pm.environment.set(\"nonExistentCompanyId\", nonExistentCompanyId);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/company/{{nonExistentCompanyId}}",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"company",
+												"{{nonExistentCompanyId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "by invalid company id Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Unsuccessful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('4');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 400\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(400)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is Bad Request\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"Bad Request\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains an error message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('Company Account get error')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/company/{{$guid}}",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"company",
+												"{{$guid}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "PATCH",
+					"item": [
+						{
+							"name": "UPDATE USER PROFILE",
+							"item": [
+								{
+									"name": "by valid user id (full update)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//First test fails. \r",
+													"\r",
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"companyName\": \"{{$randomCompanyName}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user/{{userId}}",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"{{userId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "by valid user id (partial update)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//First test fails. \r",
+													"\r",
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user/{{userId}}",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user",
+												"{{userId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "by token (full update)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is OK\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('User updated')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"companyName\": \"{{$randomCompanyName}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{$randomPassword}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "by token (partial update)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is OK\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('User updated')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "by token (partial update)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//4 tests fails. \r",
+													"\r",
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.expect(pm.response.code).to.eq(200)\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name is OK\", () => {\r",
+													"    pm.expect(pm.response.status).to.eq(\"OK\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).to.eq('User updated')\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"companyName\": \"{{$randomCompanyName}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/user",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "UPDATE COMPANY ACCOUNT",
+							"item": [
+								{
+									"name": "by valid company id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//First test fails. \r",
+													"\r",
+													"TESTS:\r",
+													"\r",
+													"pm.test(\"Successful POST request\", () => {\r",
+													"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has body\", () => {\r",
+													"    pm.expect(responseBody).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body is JSON\", () => {\r",
+													"    pm.expect(pm.response).to.have.jsonBody\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains a specific message\", () => {\r",
+													"    pm.expect(pm.response.json().message).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has headers\", () => {\r",
+													"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response size is less than 1kB\", () => {\r",
+													"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains cookies\", () => {\r",
+													"    pm.expect(pm.cookies).not.to.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"companyName\": \"{{$randomCompanyName}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}v5/company/{{companyId}}",
+											"host": [
+												"{{baseUrl}}v5"
+											],
+											"path": [
+												"company",
+												"{{companyId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "DELETE",
+					"item": [
+						{
+							"name": "by valid user id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//First test fails. \r",
+											"\r",
+											"TESTS:\r",
+											"\r",
+											"pm.test(\"Successful POST request\", () => {\r",
+											"    pm.expect(pm.response.code.toString()[0]).to.eq('2');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has body\", () => {\r",
+											"    pm.expect(responseBody).not.to.be.undefined\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body is JSON\", () => {\r",
+											"    pm.expect(pm.response).to.have.jsonBody\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains a specific message\", () => {\r",
+											"    pm.expect(pm.response.json().message).not.to.be.undefined\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has headers\", () => {\r",
+											"    pm.expect(pm.response.headers).not.to.be.undefined\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is in milliseconds (less than 1 second)\", () => {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response size is less than 1kB\", () => {\r",
+											"    pm.expect(pm.response.responseSize).to.be.below(1000);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains cookies\", () => {\r",
+											"    pm.expect(pm.cookies).not.to.be.undefined\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
-								"method": "GET",
+								"method": "DELETE",
 								"header": [
 									{
 										"key": "Authorization",
@@ -921,108 +3304,6 @@
 									"raw": "{{baseUrl}}v5/user/{{userId}}",
 									"host": [
 										"{{baseUrl}}v5"
-									],
-									"path": [
-										"user",
-										"{{userId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "COMPANY ACCOUNT by id",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.environment.set(\"companyName\", JSON.parse(responseBody).payload.companyName)"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{token}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}v5/company/{{companyId}}",
-									"host": [
-										"{{baseUrl}}v5"
-									],
-									"path": [
-										"company",
-										"{{companyId}}"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "PATCH",
-					"item": [
-						{
-							"name": "UPDATE USER PROFILE",
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{token}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"firstName\": \"Alex\",\r\n    \"lastName\": \"Smith\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}v4/user/{{userId}}",
-									"host": [
-										"{{baseUrl}}v4"
-									],
-									"path": [
-										"user",
-										"{{userId}}"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "DELETE",
-					"item": [
-						{
-							"name": "USER",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{token}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}v4/user/{{userId}}",
-									"host": [
-										"{{baseUrl}}v4"
 									],
 									"path": [
 										"user",

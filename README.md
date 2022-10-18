@@ -3,7 +3,7 @@
 ### Postman full collection for CRM ClientBase v5
 ---
 
-I have tryed to put in this collection some of the most likely API requests for the CRM project <a rel="CRM" href="https://clientbase.us/v5">"ClientBase v5"</a> . Here you will also find a set of environment variables, the values ​​of most of which are filled automatically during the running of requests.
+I have tryed to put in this collection some of the most likely API requests for the <a rel="CRM" href="https://clientbase.us/v5">CRM project "ClientBase v5"</a> . Here you will also find a set of environment variables, the values ​​of most of which are filled automatically during the running of requests.
 
 When I was making collection, I used this <a rel="checklist" href="https://github.com/Sanzhanov/API-Tests-Check-List">API Tests checklist</a>. Validation of data in the fields was not performed.
 

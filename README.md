@@ -1,8 +1,11 @@
-![Header](https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/header1.png)
+ <div align='center'>
+<p align="center"> 
+        <img src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/header1.png" alt="header" 
+   align="center"/> 
+ </p></div>
 
-<img align='center' src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/header1.png" alt="header"/>
-
-## Newman Collection Run Reporter (on example of CRM Project)
+---
+## Newman Collection Run Reporter (on CRM Project example)
 
 Hi everyone,
 
@@ -19,15 +22,14 @@ I implemented the same on the example of the CRM Project "ClientBase v5". My ful
 ![Default Report](./examples/Default_Report.gif)
 
 ---
-
 ### How to install
 <img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/examples/fork.png" alt="fork this repository" />
 
 - First of all fork this repository by clicking on the `fork` button on the top of this page. This will create a copy of this repository in your account.
 
-<img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/examples/copy-to-clipboard.png" alt="copy URL to clipboard" />
-
 - Clone the forked repository to your computer. Go to your GitHub account, open the forked repository, click on the `code` button and then click the copy to clipboard icon.
+
+<img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/examples/copy-to-clipboard.png" alt="copy URL to clipboard" />
 
 - Open IDE (Visual Studio Code, Webstorm or another code editor) on your computer and create new project from version control using copied link (paste copied URL). Here you're copying the contents of the forked repository to your computer.
 
@@ -42,7 +44,6 @@ I implemented the same on the example of the CRM Project "ClientBase v5". My ful
 - Next, go to the root folder of the project on your computer and open this file with a browser.
 
 ---
-
 > ### If you want run your own collections:
 
 - Follow the first four steps above.

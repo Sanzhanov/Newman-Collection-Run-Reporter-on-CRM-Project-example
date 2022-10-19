@@ -1,10 +1,10 @@
-![Header](https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/header.png)
+![Header](https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/header1.png)
 
-## Newman Test Run Reporter for CRM Project ClientBase v5
+## Newman Test Run Reporter for CRM Project
 
 Hi everyone,
 
-Here I'd like to show you how I implemented running my test collections and getting quality reports with NPM packages <a rel="Newman" href="https://www.npmjs.com/package/newman">"Newman"</a> and <a rel="NewmanReporter" href="https://www.npmjs.com/package/newman-reporter-htmlextra">"Newman Reporter htmlextra"</a>.
+Here I'd like to show how I implemented automated running my test collections and getting quality reports with NPM packages <a rel="Newman" href="https://www.npmjs.com/package/newman">"Newman"</a> and <a rel="NewmanReporter" href="https://www.npmjs.com/package/newman-reporter-htmlextra">"Newman Reporter htmlextra"</a>.
 
 Of course, you can run your collections by Postman CLI or Newman as a pure command-line Collection Runner and get the output in the terminal. However, you can get a much more informative and user-friendly report with a dashboard style summary landing page and a set of different tabs which contain the detailed request information. Moreover, as a user, you are able to create better custom templates just for your needs.
 
@@ -35,7 +35,7 @@ I implemented the same on the example of the CRM Project "ClientBase v5". My ful
 
 - After the packages are installed, run the collection using command: `npm run apitest`. 
 
-<img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/apireport.png" alt="apireport" />
+<img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/examples/apireport.png" alt="apireport" />
 
 - After a few seconds, you will see that a new directory `report` has appeared in the sidebar, with an attached file `apireport.html` in it.
 

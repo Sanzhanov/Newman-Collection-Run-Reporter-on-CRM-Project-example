@@ -4,7 +4,7 @@
    align="center"/> 
  </p></div>
 
----
+
 ## Newman Collection Run Reporter (on CRM Project example)
 
 Hi everyone,
@@ -22,8 +22,9 @@ I implemented the same on the example of the CRM Project "ClientBase v5". My ful
 ![Default Report](./examples/Default_Report.gif)
 
 ---
-### How to install
 <img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/examples/fork.png" alt="fork this repository" />
+
+### How to install
 
 - First of all fork this repository by clicking on the `fork` button on the top of this page. This will create a copy of this repository in your account.
 
@@ -33,9 +34,9 @@ I implemented the same on the example of the CRM Project "ClientBase v5". My ful
 
 - Open IDE (Visual Studio Code, Webstorm or another code editor) on your computer and create new project from version control using copied link (paste copied URL). Here you're copying the contents of the forked repository to your computer.
 
-<img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/examples/apireport.png" alt="apireport" />
-
 - Install the required node modules in the project. Open a built-in terminal in your IDE and run the following command: `npm i`. Though Newman may already be installed globally on your computer.
+
+<img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/examples/apireport.png" alt="apireport" />
 
 - After the packages are installed, run the collection using command: `npm run apitest`. 
 

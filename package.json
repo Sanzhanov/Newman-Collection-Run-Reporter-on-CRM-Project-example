@@ -1,0 +1,24 @@
+{
+  "name": "postman-full-collection-for-crm-clientbase-v5",
+  "version": "1.0.0",
+  "description": "[![Header](https://github.com/Sanzhanov/Postman-full-collection-for-CRM-ClientBase-v5/blob/main/assets/header.png)](https://clientbase.us/v5)",
+  "main": "index.js",
+  "scripts": {
+    "apitest": "node src/runner/runner.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sanzhanov/Postman-full-collection-for-CRM-ClientBase-v5.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sanzhanov/Postman-full-collection-for-CRM-ClientBase-v5/issues"
+  },
+  "homepage": "https://github.com/Sanzhanov/Postman-full-collection-for-CRM-ClientBase-v5#readme",
+  "dependencies": {
+      "newman": "^5.3.2",
+      "newman-reporter-htmlextra": "^1.22.11"
+  }
+}

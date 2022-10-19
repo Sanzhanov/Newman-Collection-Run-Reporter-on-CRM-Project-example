@@ -1,22 +1,20 @@
 {
-  "name": "postman-full-collection-for-crm-clientbase-v5",
+  "name": "newman-test-run-reporter-for-crm-project-clientBase-v5",
   "version": "1.0.0",
-  "description": "[![Header](https://github.com/Sanzhanov/Postman-full-collection-for-CRM-ClientBase-v5/blob/main/assets/header.png)](https://clientbase.us/v5)",
-  "main": "index.js",
+  "description": "[![Header](https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/header.png)](https://clientbase.us/v5)",
   "scripts": {
     "apitest": "node src/runner/runner.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sanzhanov/Postman-full-collection-for-CRM-ClientBase-v5.git"
+    "url": "git+https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5.git"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Alex Sanzhanov",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Sanzhanov/Postman-full-collection-for-CRM-ClientBase-v5/issues"
+    "url": "https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/issues"
   },
-  "homepage": "https://github.com/Sanzhanov/Postman-full-collection-for-CRM-ClientBase-v5#readme",
+  "homepage": "https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5#readme",
   "dependencies": {
       "newman": "^5.3.2",
       "newman-reporter-htmlextra": "^1.22.11"

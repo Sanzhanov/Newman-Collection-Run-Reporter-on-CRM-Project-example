@@ -1,14 +1,61 @@
-[![Header](https://github.com/Sanzhanov/Postman-full-collection-for-CRM-ClientBase-v5/blob/main/assets/header.png)](https://clientbase.us/v5)
+![Header](https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/header.png)
 
-### Postman full collection for CRM ClientBase v5
+## Newman Test Run Reporter for CRM Project ClientBase v5
+---
+Hi everyone,
+
+Here I'd like to show you how I implemented running my test collections and getting quality reports with NPM packages <a rel="Newman" href="https://www.npmjs.com/package/newman">"Newman"</a> and <a rel="NewmanReporter" href="https://www.npmjs.com/package/newman-reporter-htmlextra">"Newman Reporter htmlextra"</a>.
+
+Of course, you can run your collections by Postman CLI or Newman as a pure command-line Collection Runner and get the output in the terminal. However, you can get a much more informative and user-friendly report with a dashboard style summary landing page and a set of different tabs which contain the detailed request information. Moreover, as a user, you are able to create better custom templates just for your needs.
+
+I implemented the same on the example of the CRM Project "ClientBase v5". My full collection for this project you can find <a rel="checklist" href="">here</a> (still growing). 
+> However, you can use this project for your own collections (follow below).
+
+---
+### Report Example
+
+![Default Report](./examples/Default_Report.gif)
+
 ---
 
-I have tryed to put in this collection some of the most likely API requests for the <a rel="CRM" href="https://clientbase.us/v5">CRM project "ClientBase v5"</a> . Here you will also find a set of environment variables, the values ​​of most of which are filled automatically during the running of requests.
+### How to install
+<img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/fork.png" alt="fork this repository" />
 
-When I was making collection, I used this <a rel="checklist" href="https://github.com/Sanzhanov/API-Tests-Check-List">API Tests checklist</a>. Validation of data in the fields was not performed.
+- First of all fork this repository by clicking on the fork button on the top of this page. This will create a copy of this repository in your account.
 
-In addition inside most requests, you will find some scripts and tests. When I was writing tests, I deliberately used <a rel="Chai" href="https://www.chaijs.com/api/bdd/">Chai Assertion Library</a> BDD syntax (expect) to make it easier to develop automated tests based on them. All that's left is to adjust the tests according to the syntax of the HTTP client you plan to use. Moreover, <a rel="checklist" href="https://github.com/Sanzhanov/API-Automation-Tests-for-CRM-ClientBase-v5">here</a> you can see my collection of automated API tests for the same project.
+<img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/clone.png" alt="clone this repository" />
 
-Some tests contain the same checks but use slightly different syntax. The point is that the syntax of Postman and Chai Library allows us to implement the desired check in many ways, which is certainly great. By discovering different ways to write tests, you can design new checks, because of course, this is not a complete set of tests. Also you may notice that some requests contain subrequests (for example, verification of the user's email).
+- Clone the forked repository to your computer. Go to your GitHub account, open the forked repository, click on the code button and then click the copy to clipboard icon.
 
-This collection is not final. Make your corrections, improvements, I will be glad to your future requests for a merge.
+<img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/copy-to-clipboard.png" alt="copy URL to clipboard" />
+
+- Open IDE (Visual Studio Code, Webstorm or another code editor) on your computer and create new project from version control using copied link (paste copied URL). Here you're copying the contents of the forked repository to your computer.
+
+- Install the required node modules in the project. Open a built-in terminal in your IDE and run the following command:
+
+```
+npm i
+```
+- After the packages are installed, run the collection using command:
+```
+npm run apitest
+```
+<img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/apireport.png" alt="apireport" />
+
+- After a few seconds, you will see that a new directory "report" has appeared in the sidebar, with an attached file "apireport.html" in it.
+
+- Next, go to the root folder of the project on your computer and open this file with a browser.
+
+> If you want run your own collections:
+
+- Follow the first four steps above.
+
+- Next, open the project's root folder on your computer and find the "collection" folder inside the "src" folder. Delete the nested Json file and paste the Json with your collection there. 
+
+- Go to the "environment" folder inside the "src" folder and do the same for the json containing the environment variables.
+
+- Go back to the code editor and open the src/runner/runner.js file in it. On the fourth line, in the "collection" field, replace after "src/collection/" the name of the collection with the name of your Json file. Do the same on the fifth line for the "environment" field. Don't forget to save your changes by pressing Crtl+S.
+
+- run the collection using command: `npm run apitest`. Congratulations, your own report is ready! 
+
+- To enable the functionality of a given feature, uncomment any of the options within the `htmlextra` object in `runner.js` file. 

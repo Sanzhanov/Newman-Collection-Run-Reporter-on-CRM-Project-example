@@ -7,7 +7,7 @@ newman.run({
     iterationCount: 1,
     reporter: {
         htmlextra: {
-            export: "C:/Users/sanzh/.vscode/Postman_collections/Postman-full-collection-for-CRM-ClientBase-v5/report"+"/apireport.html",
+            export: "report"+"/apireport.html",
             // template: './template.hbs'
             // logs: true,
             // showOnlyFails: true,

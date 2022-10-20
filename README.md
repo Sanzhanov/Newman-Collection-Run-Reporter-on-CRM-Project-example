@@ -3,7 +3,7 @@
         <img src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/header1.png" alt="header" 
    align="center"/> 
  </p></div>
-
+<br/>
 
 ## Newman Collection Run Reporter (on CRM Project example)
 
@@ -28,15 +28,15 @@ I implemented the same on the example of the CRM Project "ClientBase v5". My ful
 
 - First of all fork this repository by clicking on the `fork` button on the top of this page. This will create a copy of this repository in your account.
 
-- Clone the forked repository to your computer. Go to your GitHub account, open the forked repository, click on the `code` button and then click the copy to clipboard icon.
-
 <img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/examples/copy-to-clipboard.png" alt="copy URL to clipboard" />
+
+- Clone the forked repository to your computer. Go to your GitHub account, open the forked repository, click on the `code` button and then click the copy to clipboard icon.
 
 - Open IDE (Visual Studio Code, Webstorm or another code editor) on your computer and create new project from version control using copied link (paste copied URL). Here you're copying the contents of the forked repository to your computer.
 
-- Install the required node modules in the project. Open a built-in terminal in your IDE and run the following command: `npm i`. Though Newman may already be installed globally on your computer.
-
 <img align="right" width="300" src="https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/examples/apireport.png" alt="apireport" />
+
+- Install the required node modules in the project. Open a built-in terminal in your IDE and run the following command: `npm i`. Though Newman may already be installed globally on your computer.
 
 - After the packages are installed, run the collection using command: `npm run apitest`. 
 

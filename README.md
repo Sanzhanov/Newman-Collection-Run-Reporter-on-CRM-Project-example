@@ -53,7 +53,7 @@ I implemented the same on the example of the CRM Project "ClientBase v5". Used c
 
 - Go to the `environment` folder inside the `src` folder and do the same for the json containing the environment variables.
 
-- Go back to the code editor and open the `src/runner/runner.js` file in it. On the fourth line, in the `collection` field, replace after `src/collection/` the name of the collection with the name of your json file. Do the same on the fifth line for the `environment` field. Don't forget to save your changes by pressing `Crtl+S`.
+- Go back to the code editor and open the `src/runner/runner.js` file in it. On the fourth line, in the `collection` field, replace after `src/collection/` the name of the collection with the name of your json file. Do the same on the fifth line for the `environment` field. Also in `iterationCount` field you can set the number of iterations. Don't forget to save your changes by pressing `Crtl+S`.
 
 - Run the collection using command: `npm run apitest`. Congratulations, your own report is ready! 
 

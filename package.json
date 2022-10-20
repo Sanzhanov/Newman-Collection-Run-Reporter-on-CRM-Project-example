@@ -1,20 +1,20 @@
 {
-  "name": "newman-test-run-reporter-for-crm-project-clientBase-v5",
+  "name": "newman-collection-run-reporter-on-crm-project-example",
   "version": "1.0.0",
-  "description": "[![Header](https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/blob/main/assets/header.png)](https://clientbase.us/v5)",
+  "description": "Good example of automated running collections and getting HTML-reports of results.",
   "scripts": {
     "apitest": "node src/runner/runner.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5.git"
+    "url": "git+https://github.com/Sanzhanov/Newman-Collection-Run-Reporter-on-CRM-Project-example.git"
   },
   "author": "Alex Sanzhanov",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5/issues"
+    "url": "https://github.com/Sanzhanov/Newman-Collection-Run-Reporter-on-CRM-Project-example/issues"
   },
-  "homepage": "https://github.com/Sanzhanov/Newman-Test-Run-Reporter-for-CRM-Project-ClientBase-v5#readme",
+  "homepage": "https://github.com/Sanzhanov/Newman-Collection-Run-Reporter-on-CRM-Project-example#readme",
   "dependencies": {
       "newman": "^5.3.2",
       "newman-reporter-htmlextra": "^1.22.11"

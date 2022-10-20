@@ -13,7 +13,7 @@ Here I'd like to show how I implemented automated running my test collections an
 
 Of course, you can run your collections by Postman CLI or Newman as a pure command-line Collection Runner and get the output in the terminal. However, you can get a much more informative and user-friendly report with a dashboard style summary landing page and a set of different tabs which contain the detailed request information. Moreover, as a user, you are able to create better custom templates just for your needs.
 
-I implemented the same on the example of the CRM Project "ClientBase v5". My full collection for this project you can find <a rel="checklist" href="">here</a> (still growing). 
+I implemented the same on the example of the CRM Project "ClientBase v5". Used collection contains several dozen queries and more than 400 tests. My full collection for this project you can find <a rel="checklist" href="https://github.com/Sanzhanov/Postman-full-collection-for-CRM-ClientBase-v5">here</a> (still growing). 
 > However, you can use this project for your own collections (follow below).
 
 ---

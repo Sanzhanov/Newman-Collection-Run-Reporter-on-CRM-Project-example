@@ -1,8 +1,11 @@
 const newman = require('newman');
 
+const collectionName = 'CRM_Project_ClientBase_v5_collection.json'
+const environmentName = 'ClientBase_v5_environment.json'
+
 newman.run({
-    collection: "src/collection/CRM_Project_ClientBase_v5_collection.json", // Collection URL from a public link or the Postman API can also be used
-    environment: "src/environment/ClientBase_v5_environment.json",
+    collection: `src/collection/${collectionName}`,
+    environment: `src/environment/${environmentName}`,
     reporters: ['htmlextra'],
     iterationCount: 1,
     reporter: {
